@@ -11,7 +11,7 @@ function getComputerChoice() {
 // use the perameters playerSelection and computerSelection.
 // declare the winner with "You Lose! Paper beats Rock".
 // Make the playerSelection parameter case sensitive
-// return the results of the function call
+// return the results of the function callz
 
 function round(playerSelection, computerSelection) {
   playerSelection = playerSelection.toLowerCase();
