@@ -13,58 +13,84 @@ function getComputerChoice() {
 // Make the playerSelection parameter case sensitive
 // return the results of the function call
 
-function round(playerSelection, computerSelection) {
+function playRound(playerSelection, computerSelection) {
   playerSelection = playerSelection.toLowerCase();
   computerSelection = computerSelection.toLowerCase();
-  if (playerSelection === "rock" && computerSelection === "scissors") {
-    return "You Win! Rock beats Scissors";
-  } else if (playerSelection === "rock" && computerSelection === "paper") {
-    return "You Loose! Paper beats Rock";
-  } else if (playerSelection === "rock" && computerSelection === "rock") {
-    return "Its a Tie!";
+  if (playerSelection === "rock") {
+    if (computerSelection === "scissors") {
+      return "You Win! Rock beats Scissors";
+    } else if (computerSelection === "paper") {
+      return "You Lose! Paper beats Rock";
+    } else {
+      return "It's a Tie!";
+    }
+  } else if (playerSelection === "paper") {
+    if (computerSelection === "rock") {
+      return "You Win! Paper beats Rock";
+    } else if (computerSelection === "scissors") {
+      return "You Lose! Scissors beats Paper";
+    } else {
+      return "It's a Tie!";
+    }
+  } else if (playerSelection === "scissors") {
+    if (computerSelection === "paper") {
+      return "You Win! Scissors beats Paper";
+    } else if (computerSelection === "rock") {
+      return "You Lose! Rock beats Scissors";
+    } else {
+      return "It's a Tie!";
+    }
   } else {
-    return "You wrote something other than rock and i havent coded that in yet";
+    return "You wrote something other than rock, paper, or scissors... I haven't coded that in yet";
   }
 }
 
-// write a new fucntion called game()
-// use the previous function inside of the one to play a 5 round game that keeps score and reports a winner or loser at the end
-// display the results via console.log
+// create a variable called buttons which selects all html elements with class=button
+// add an onclick eventlistener to the button elements that calls a playRound function when it is clicked
+// consolelog the result of playRound
+// add a div to the body of an html page and add text
+
+let buttons = document.querySelectorAll(".btn");
 
 let playerScore = 0;
 let computerScore = 0;
+let gamesPlayed = 0;
 
-function game() {
-  for (let i = 0; i < 5; i++) {
-    let thisRound = round(
-      prompt("rock paper or scissors"),
-      getComputerChoice()
-    );
-    console.log(thisRound);
-    if (thisRound === "You Win! Rock beats Scissors") {
-      playerScore = playerScore + 1;
-    } else if (thisRound === "You Loose! Paper beats Rock") {
-      computerScore = computerScore + 1;
+buttons.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (gamesPlayed === 5) {
+      document.querySelector(".results").innerHTML = ""; // clear the results
+      gamesPlayed = 0; //reset score
     }
-  }
-}
+    let thisRound = playRound(button.textContent, getComputerChoice());
+    let div = document.createElement("div");
+    div.textContent = thisRound;
+    console.log(thisRound);
+    gamesPlayed += 1;
+    console.log(`games played: ${gamesPlayed}`);
+    document.querySelector(".results").appendChild(div);
+    if (gamesPlayed === 5) {
+      let h2 = document.createElement("h2");
+      h2.textContent = "Game Over. Play Again?";
+      document.querySelector(".results").appendChild(h2);
+    }
+  });
+});
 
-game();
+// function winner() {
+//   if (playerScore > computerScore) {
+//     return "You win overall! ";
+//   } else if (computerScore > playerScore) {
+//     return "You lose overall. ";
+//   } else {
+//     return "Its a draw. ";
+//   }
+// }
 
-function winner() {
-  if (playerScore > computerScore) {
-    return "You win overall! ";
-  } else if (computerScore > playerScore) {
-    return "You lose overall. ";
-  } else {
-    return "Its a draw. ";
-  }
-}
-
-console.log(
-  winner() +
-    "Playerscore: " +
-    playerScore +
-    " & ComputerScore: " +
-    computerScore
-);
+// console.log(
+//   winner() +
+//     "Playerscore: " +
+//     playerScore +
+//     " & ComputerScore: " +
+//     computerScore
+// );
