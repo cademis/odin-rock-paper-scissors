@@ -55,23 +55,51 @@ let buttons = document.querySelectorAll(".btn");
 let playerScore = 0;
 let computerScore = 0;
 let gamesPlayed = 0;
+let checkWhoWon;
 
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
     if (gamesPlayed === 5) {
       document.querySelector(".results").innerHTML = ""; // clear the results
-      gamesPlayed = 0; //reset score
+      gamesPlayed = 0; //reset games played
+      playerScore = 0;
+      computerScore = 0;
     }
+
     let thisRound = playRound(button.textContent, getComputerChoice());
+
     let div = document.createElement("div");
+
     div.textContent = thisRound;
+
     console.log(thisRound);
+
     gamesPlayed += 1;
+
     console.log(`games played: ${gamesPlayed}`);
+
     document.querySelector(".results").appendChild(div);
+
+    if (thisRound.includes("You Win")) {
+      playerScore += 1;
+    } else {
+      computerScore += 1;
+    }
+
+    console.log(playerScore);
+    console.log(computerScore);
+
+    function checkYouWin(string) {
+      if (string.includes("You Win!")) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
     if (gamesPlayed === 5) {
       let h2 = document.createElement("h2");
-      h2.textContent = "Game Over. Play Again?";
+      h2.textContent = `Game Over. Play Again? Player Score: ${playerScore} Computer Score: ${computerScore}`;
       document.querySelector(".results").appendChild(h2);
     }
   });
